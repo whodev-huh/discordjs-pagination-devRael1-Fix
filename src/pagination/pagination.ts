@@ -209,39 +209,28 @@ export const pagination = async (options: PaginationOptions) => {
       });
    });
    
-   collector.on("end", () => {
-      if (type === 'message') {
-         if (deleteAtEnd) {
-            initialMessage.delete()
-                  .catch(() => ({}));
-         }
-         else {
-            initialMessage.edit({
-                  components: disableB ? components(true) : []
-            }).catch(() => ({}));
-         }
-      }
-      else {
-         if (deleteAtEnd) {
-            interaction.deleteReply()
-                  .catch(err => {
-                     if (err.code === 50027) {
-                        console.log(`Webhook token has expired : ${client ? "trying to delete embed from it's id..." : "no client found in option, cannot delete embed"}`);
-                        if (client) {
-                           client.channels.fetch(interaction.channelId).then(channel => {
-                              channel.messages.delete(initialMessage.id);
-                           }).then(() => {
-                              console.log(`Message with ${initialMessage.id} id has been deleted successfully.`);
-                           }).catch(err => console.log(`Channel does not exist or other error has been raised :\n${err}`))
-                        }
-                     }
-                  });
-         }
-         else {
-            interaction.editReply({
-                  components: disableB ? components(true) : []
-            }).catch(() => ({}));
-         }
-      }
-   });
+   collector.on("end", async () => {
+    try {
+        if (deleteAtEnd) {
+            if (type === 'message') {
+                await initialMessage.delete();
+            } else {
+                await interaction.deleteReply();
+            }
+        } else {
+            // If deleteAtEnd is false, just remove the buttons
+            if (type === 'message') {
+                await initialMessage.edit({
+                    components: disableB ? components(true) : []
+                });
+            } else {
+                await interaction.editReply({
+                    components: disableB ? components(true) : []
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error deleting or editing message:', error);
+    }
+});
 }
