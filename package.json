@@ -1,6 +1,6 @@
 {
-  "name": "@devraelfreeze/discordjs-pagination",
-  "version": "2.7.6",
+  "name": "@devraelfreezefix/discordjs-pagination",
+  "version": "2.7.7",
   "description": "A pagination module for Discord.js v14",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,6 +29,6 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "discord.js": "^14.9.0"
+    "discord.js": "^14.14.1"
   }
 }
