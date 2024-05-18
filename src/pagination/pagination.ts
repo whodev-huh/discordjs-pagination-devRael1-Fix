@@ -18,7 +18,10 @@ const defaultEmojis = {
    previous: "◀️",
    next: "▶️",
    last: "➡️",
-   number: "#️⃣"
+   number: "#️⃣",
+   Check: "✅",
+   Cross: "❌",
+   // Add more emojis as needed
 }
 
 const defaultStyles = {
